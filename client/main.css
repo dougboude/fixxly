@@ -1,0 +1,83 @@
+/* CSS declarations go here */
+.landingpage{
+	background-color:#444444;
+	height:100vh;
+	color:white;
+	background-image: url('/logo.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 10%;
+    position: relative;
+}
+.bigwhitecenter{
+    text-align:center;
+    font-size:20px;
+    padding-top:40px;
+}
+.bigwhitecenter a{
+	color:white;
+	font-weight:bold;
+}
+/* Portrait */
+@media screen and (orientation:portrait) {
+	.divLoginform{
+		margin-top:40%;
+	}
+}
+/* Landscape */
+@media screen and (orientation:landscape) {
+	.divLoginform{
+		margin-top:20%;
+	}
+}
+.col-centered{
+    float: none;
+    margin-left:auto;
+    margin-right:auto;
+}
+.inputLogin{
+	border:none;
+    background: transparent none;
+    padding: .4em;
+    line-height: 1.4em;
+    display: block;
+    width: 95%;
+    color: white;
+    font-size:20px;
+}
+.bottomWhite{
+	border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: thin solid white;
+    margin: 25px 0 25px 0;
+    position:relative;
+}
+#btnLogin{
+	width:100%;
+	background-color:white;
+	border-radius:1.4em;
+	color:black;
+	text-align:center;
+	font-weight:bold;
+	margin-top:20px;
+    border: none;
+    outline:none;
+    padding:20px 0 20px 0;
+    font-size:24px;
+}
+#iPassword{
+	float:left;
+	width:80%;
+}
+#aForgotPassword{
+	float:right;
+	color:white;
+	position:absolute;
+	bottom:8px;
+	right:0px;
+	font-size:20px;
+}
+input:focus{
+    outline: none;
+}
