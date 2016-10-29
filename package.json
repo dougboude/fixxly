@@ -5,6 +5,9 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "bcrypt": "^0.8.7",
+    "flux": "^3.1.0",
+    "keymirror": "^0.1.1",
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.3.1",
     "react-addons-transition-group": "^15.3.1",
