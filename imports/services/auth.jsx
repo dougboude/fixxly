@@ -10,10 +10,11 @@
 		return user;
 	}
 
-	var login = function(creds){//I'll return the user object, regardless of how login goes. In case someone needs it conveniently.
+	var OLD_login = function(creds){//I'll return the user object, regardless of how login goes. In case someone needs it conveniently.
 		var promise = new Promise(function(resolve,reject){
 			var retval = {user:getUser(),success:true,message:""};
 			//login process below. will replace with call to api later
+			//
 		  	if(creds.iEmail == "doug@gmail.com" && creds.iPassword == "derp"){
 		  		retval.user.id = 1;
 		  		retval.user.name = 'DougieB';
@@ -29,6 +30,29 @@
 
 	  	return promise;
 	}
+
+	var login = function(creds){
+		var promise = new Promise(function(resolve,reject){
+			var retval = {user:getUser(),success:true,message:""};
+			//login process below. will replace with call to api later
+			fetch( 'http://localhost:1337/login', {credentials:  'same-origin',method:'POST'})
+			.then( (data) => data.json() )
+			.then( (data) => {	
+				if( data.success === true) {
+			  		retval.user.id = data.user.id;
+			  		retval.user.name = data.user.name;
+			  		retval.user.token = data.user.token;
+			  		localsession.set('thisuser',retval.user);
+			  		resolve(retval);
+				} else {//login failed
+			  		retval.success = false;
+			  		retval.message = data.message;
+			  		reject(retval);
+				}
+			});
+		});
+	  	return promise;
+	};
 
 	var getResetLink = function(email){
 		var retval = {success:true,message:""};
