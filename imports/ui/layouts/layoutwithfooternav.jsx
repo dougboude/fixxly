@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Footernav from '../components/footernav.jsx';
-console.log('footernav',Footernav);
+
 export default class layoutwithfooternav extends Component {
   render() {
     return (

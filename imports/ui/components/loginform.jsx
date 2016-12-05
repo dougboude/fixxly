@@ -48,7 +48,6 @@ export default class LoginForm extends Component {
   	//login returns a promise...
   	auth.login(this.state.formvals).then(
   		function(result){//resolved
-  			console.log('resolved. should push home');
   			browserHistory.push('/home');
   		},
   		function(result){//rejected
