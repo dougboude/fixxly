@@ -1,7 +1,7 @@
 (function () {
 	import { locsession as localsession } from './localsession';
 
-	var getNewUser = function(){//return an empty user object
+	var getNewUser = function(){//return an empty placeholder user object
 		var user = {
 			id:0,
 			name:"",
@@ -10,38 +10,21 @@
 		return user;
 	}
 
-	var OLD_login = function(creds){//I'll return the user object, regardless of how login goes. In case someone needs it conveniently.
-		var promise = new Promise(function(resolve,reject){
-			var retval = {user:getUser(),success:true,message:""};
-			//login process below. will replace with call to api later
-			//
-		  	if(creds.iEmail == "doug@gmail.com" && creds.iPassword == "derp"){
-		  		retval.user.id = 1;
-		  		retval.user.name = 'DougieB';
-		  		retval.user.token = 'asdasdas';
-		  		localsession.set('thisuser',retval.user);
-		  		resolve(retval);
-		  	} else {//login failed
-		  		retval.success = false;
-		  		retval.message = "login failed";
-		  		reject(retval);
-		  	}			
-		});
-
-	  	return promise;
-	}
-
 	var login = function(creds){
 		var promise = new Promise(function(resolve,reject){
-			var retval = {user:getUser(),success:true,message:""};
-			//login process below. will replace with call to api later
-			fetch( 'http://localhost:1337/login', {credentials:  'same-origin',method:'POST'})
+			var retval = {message:"",success:true,user:getUser(),token:""};
+			//transform submitted creds into form data
+			var frmCreds = new FormData();
+			for(let cred of Object.keys(creds)){
+				frmCreds.append(cred,creds[cred]);
+			}
+
+			fetch( 'http://localhost:1337/login', {credentials:'same-origin',method:'POST',body: frmCreds})
 			.then( (data) => data.json() )
 			.then( (data) => {	
 				if( data.success === true) {
-			  		retval.user.id = data.user.id;
-			  		retval.user.name = data.user.name;
-			  		retval.user.token = data.user.token;
+			  		retval.user = data.user;
+			  		//retval.user.token = data.token;
 			  		localsession.set('thisuser',retval.user);
 			  		resolve(retval);
 				} else {//login failed
@@ -91,7 +74,7 @@
 	}
 
 	var logout = function(){
-
+		localsession.set('thisuser',getNewUser());
 	}
 
 	var getUser = function(){

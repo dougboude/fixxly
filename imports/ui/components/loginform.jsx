@@ -4,9 +4,8 @@ import { locsession as localsession } from '../../services/localsession';
 import { Link, browserHistory } from 'react-router';
 import { Modal, Button } from 'react-bootstrap';
 import auth from '../../services/auth.jsx';
-import { withRouter } from 'react-router'
 
-var Page = class LoginForm extends Component {
+export default class LoginForm extends Component {
   constructor(props) {
 	    super(props);
 	    this.state = {
@@ -14,8 +13,8 @@ var Page = class LoginForm extends Component {
 	    	showModal:false,
 	    	modalmessage:"",
 	    	formvals:{
-	    		iEmail:""
-	    		,iPassword:""
+	    		email:""
+	    		,password:""
 	    	}
 		};
 		this.inputValChange = this.inputValChange.bind(this);
@@ -41,7 +40,7 @@ var Page = class LoginForm extends Component {
   	var creds = this.state.formvals;
   	var self = this;
   	//a wee bit of client side validation
-  	if(creds.iEmail == "" || creds.iPassword == ""){
+  	if(creds.email == "" || creds.password == ""){
   		this.setState({modalmessage:"Please enter a username and password"});
   		this.showmodal();
   		return;
@@ -49,9 +48,11 @@ var Page = class LoginForm extends Component {
   	//login returns a promise...
   	auth.login(this.state.formvals).then(
   		function(result){//resolved
+  			console.log('resolved. should push home');
   			browserHistory.push('/home');
   		},
   		function(result){//rejected
+  			console.log('login rejected.');
   		//set state error message
   		var newstate = {error:result.message};
   		self.setState(newstate);
@@ -62,7 +63,7 @@ var Page = class LoginForm extends Component {
   }
 
   clearForm(){
-  	var newformvals = {formvals:{iEmail:"",iPassword:""}};
+  	var newformvals = {formvals:{email:"",password:""}};
   	this.setState(newformvals);
   }
 
@@ -104,10 +105,10 @@ var Page = class LoginForm extends Component {
 		      <div className="form-group row-fluid">
 		        <div className="col-xs-6 divLoginform col-centered ">
 		          <div className="bottomWhite">
-		            <input type="email" name="iEmail" id="iEmail" ref="iEmail" onChange={this.inputValChange} value={this.state.formvals.iEmail} className="inputLogin" placeholder="Email" />
+		            <input type="email" name="email" id="email" ref="email" onChange={this.inputValChange} value={this.state.formvals.email} className="inputLogin" placeholder="Email" />
 		          </div>
 		          <div className="bottomWhite">
-		            <input type="password" name="iPassword" ref="iPassword" id="iPassword" onChange={this.inputValChange} value={this.state.formvals.iPassword} className="inputLogin" placeholder="Password" />
+		            <input type="password" name="password" ref="password" id="password" onChange={this.inputValChange} value={this.state.formvals.password} className="inputLogin" placeholder="Password" />
 		            <Link to="/forgotpassword" id="aForgotPassword">Forgot?</Link>
 		            <div className="clearfix"></div>
 		          </div>
@@ -146,5 +147,3 @@ var Page = class LoginForm extends Component {
 	}
   }
 }
-
-export default withRouter(Page)
